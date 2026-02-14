@@ -13,7 +13,7 @@ export function Sidebar() {
 
   return (
     <aside
-      className={`relative z-50 flex flex-col transition-all duration-300 ease-in-out rounded-3xl border border-white/20 shadow-2xl backdrop-blur-xl bg-white/70 h-[calc(100dvh-2rem)] ${
+      className={`relative z-50 flex flex-col transition-all duration-300 ease-in-out rounded-3xl border border-white/20 shadow-2xl backdrop-blur-xl bg-white/70 h-full ${
         isOpen ? "w-64" : "w-20"
       }`}
     >
