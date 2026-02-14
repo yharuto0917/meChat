@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Caveat, Google_Sans_Flex, Noto_Sans, Noto_Sans_JP } from "next/font/google";
+import { TooltipProvider } from "@/components/ui/tooltip";
 import "./globals.css";
 
 const googleSansFlex = Google_Sans_Flex({
@@ -45,7 +46,9 @@ export default function RootLayout({
 			<body
 				className={`${googleSansFlex.variable} ${notoSansJP.variable} ${notoSans.variable} ${caveat.variable} font-en antialiased`}
 			>
-				{children}
+				<TooltipProvider>
+					{children}
+				</TooltipProvider>
 			</body>
 		</html>
 	);
