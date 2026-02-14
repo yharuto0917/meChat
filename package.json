@@ -23,7 +23,9 @@
 		"next": "16.1.5",
 		"react": "19.1.5",
 		"react-dom": "19.1.5",
-		"tailwind-merge": "^3.4.0"
+		"tailwind-merge": "^3.4.0",
+		"use-submit-jp": "^0.1.0",
+		"zustand": "^5.0.11"
 	},
 	"devDependencies": {
 		"@eslint/eslintrc": "^3",
