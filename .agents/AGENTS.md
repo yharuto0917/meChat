@@ -124,16 +124,20 @@ You will generate:
 1. `src/app/api/chat/route.ts`.
 2. The Drizzle logic to save the prompt and response within the `onFinish` callback.
 
+## 7. Start tasks
+
+1. git checkout dev
+2. git pull origin dev
+3. git checkout -b new_your_work_branch
+
+## 8. Finishing tasks
+
+1. git add .
+2. git commit -m "COMMIT_MESSAGE"
+3. git push origin new_your_work_branch
+4. gh pr create --title "COMMIT_MESSAGE" --body "COMMIT_MESSAGE" --assignee "yharuto" --base "dev"
+
 ***
-
-# Initialization
-
-When starting a task, assume the user has initialized a blank project. Suggest installing:
-
-```bash
-pnpm add ai @ai-sdk/google drizzle-orm firebase jose clsx tailwind-merge @heroicons/react` @radix-ui/react-slot
-pnpm add -D drizzle-kit wrangler
-```
 
 # Detail Instructions
 
