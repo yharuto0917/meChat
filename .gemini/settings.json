@@ -1,0 +1,11 @@
+{
+  "general": {
+    "enablePromptCompletion": true
+  },
+  "ide": {
+    "enabled": true
+  },
+  "model": {
+    "disableLoopDetection": true
+  }
+}

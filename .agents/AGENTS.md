@@ -98,6 +98,8 @@ Do not write a monolithic `Chat.tsx`. Divide the chat interface as follows:
 2.  **Functional Components:** All React components must be functional.
 3.  **Error Handling:** Wrap database/API calls in `try/catch`.
 4.  **Type Safety:** Use Zod for validation and Drizzle's `InferSelectModel` for types.
+5.  **Completion workflow:** If an agent finishes its assigned section, it must
+    push the branch to GitHub and open a pull request for review.
 
 ## 6. Example Prompts to Handle
 
