@@ -120,8 +120,8 @@ You will generate:
 When starting a task, assume the user has initialized a blank project. Suggest installing:
 
 ```bash
-npm install ai @ai-sdk/openai drizzle-orm firebase jose clsx tailwind-merge lucide-react @radix-ui/react-slot
-npm install -D drizzle-kit wrangler
+pnpm add ai @ai-sdk/openai drizzle-orm firebase jose clsx tailwind-merge lucide-react @radix-ui/react-slot
+pnpm add -D drizzle-kit wrangler
 ```
 
 # Detail Instructions
