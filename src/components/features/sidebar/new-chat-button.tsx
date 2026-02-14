@@ -9,10 +9,10 @@ interface NewChatButtonProps {
 
 export function NewChatButton({ isOpen }: NewChatButtonProps) {
   return (
-    <div className="py-2">
+    <div className={`py-2 flex ${isOpen ? "" : "justify-center"}`}>
       <Button 
-        className={`w-full bg-zinc-900 text-white hover:bg-zinc-700 transition-all duration-300 ${
-          isOpen ? "rounded-full px-4 justify-start" : "rounded-full p-0 h-12 w-12 mx-auto justify-center"
+        className={`bg-zinc-900 text-white hover:bg-zinc-700 transition-all duration-300 ${
+          isOpen ? "w-full rounded-full px-4 justify-start" : "rounded-full p-0 h-12 w-12 justify-center"
         }`}
       >
         <Plus className={`h-5 w-5 shrink-0 ${isOpen ? "mr-2" : ""}`} />

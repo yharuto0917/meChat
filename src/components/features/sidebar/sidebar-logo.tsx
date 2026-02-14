@@ -13,7 +13,7 @@ export function SidebarLogo({ isOpen, onToggle }: SidebarLogoProps) {
     <div className={`flex items-center px-4 py-4 ${isOpen ? "justify-between" : "justify-center"}`}>
       {isOpen && (
         <span className="font-cavest text-2xl font-bold text-zinc-900">
-          MeChat
+          meChat
         </span>
       )}
       <Button
