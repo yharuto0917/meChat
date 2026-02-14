@@ -31,13 +31,14 @@ import {
   ModelSelectorTrigger,
   ModelSelectorLogo
 } from "@/components/ai-elements/model-selector";
-import { Send, Zap, Brain, Hammer, ChevronDown, Paperclip } from "lucide-react";
+import { Send, Brain, Hammer, ChevronDown, Paperclip } from "lucide-react";
 import { useState, useCallback } from "react";
 import { ModelOption, ToolOption, ThinkingLevel } from "./types";
 
 const models: ModelOption[] = [
-  { id: "gemini-2.0-flash", name: "Gemini 2.0 Flash" },
-  { id: "gemini-2.0-pro", name: "Gemini 2.0 Pro" },
+  { id: "gemini-3-pro", name: "Gemini 3 Pro" },
+  { id: "gemini-3-flash", name: "Gemini 3 Flash" },
+  { id: "gemini-2.5-flash-lite", name: "Gemini 2.5 Flash Lite" },
 ];
 
 const thinkingLevels: { value: ThinkingLevel; label: string }[] = [
@@ -61,7 +62,7 @@ function AttachmentButton() {
           variant="ghost"
           size="icon"
           onClick={() => openFileDialog()}
-          className="h-9 w-9 rounded-full border border-zinc-200 hover:bg-zinc-100 shrink-0"
+          className="h-9 w-9 rounded-full border border-zinc-200 hover:bg-zinc-100 shrink-0 shadow-none"
         >
           <Paperclip className="h-4 w-4 text-zinc-500" />
         </Button>
@@ -80,6 +81,7 @@ export function InputBar() {
       if (!value.trim()) return;
       handleSend();
     },
+    submitWithCommand: true, // Cmd+Enter for submission
   });
 
   const handleSend = useCallback(() => {
@@ -94,26 +96,21 @@ export function InputBar() {
         onSubmit={(msg) => {
           console.log("AI Elements Submit:", msg);
         }}
-        className="rounded-3xl border border-zinc-200 bg-white/50 transition-all focus-within:border-zinc-400 backdrop-blur-sm shadow-none"
+        className="rounded-[2.5rem] border border-zinc-200 bg-white/50 transition-all focus-within:border-zinc-400 backdrop-blur-sm shadow-none"
       >
         <PromptInputTextarea
           value={value}
           onChange={(e) => setValue(e.target.value)}
-          onKeyDown={handleKeyDown => {
-            // Merge with useSubmitJP's onKeyDown logic if needed, 
-            // but useSubmitJP handles it fine on the ref or prop
-          }}
-          // Pass the useSubmitJP onKeyDown
           onKeyDownCapture={onKeyDown}
           placeholder="Ask me anything..."
-          className="min-h-[100px] w-full resize-none border-none bg-transparent p-4 text-sm text-zinc-900 placeholder:text-zinc-400 focus-visible:ring-0 shadow-none"
+          className="min-h-[100px] w-full resize-none border-none bg-transparent p-6 text-base text-zinc-900 placeholder:text-zinc-400 focus-visible:ring-0 shadow-none"
         />
 
-        <PromptInputFooter className="px-4 pb-4">
+        <PromptInputFooter className="px-6 pb-6">
           <PromptInputTools className="gap-2">
             <ModelSelector>
               <ModelSelectorTrigger asChild>
-                <Button variant="ghost" size="sm" className="h-9 rounded-full border border-zinc-200 px-3 text-[11px] font-medium text-zinc-600 hover:bg-zinc-100">
+                <Button variant="ghost" size="sm" className="h-9 rounded-full border border-zinc-200 px-3 text-[11px] font-medium text-zinc-600 hover:bg-zinc-100 shadow-none">
                   <ModelSelectorLogo provider="google" className="mr-1.5 size-3.5" />
                   <span>{selectedModel.name}</span>
                   <ChevronDown className="ml-1 h-3 w-3 opacity-50" />
@@ -173,7 +170,7 @@ export function InputBar() {
             type="button"
             onClick={handleSend}
             disabled={!value.trim()}
-            className="h-10 w-10 rounded-full bg-zinc-900 p-0 text-white hover:bg-zinc-700 disabled:bg-zinc-100 disabled:text-zinc-300 transition-all shrink-0"
+            className="h-10 w-10 rounded-full bg-zinc-900 p-0 text-white hover:bg-zinc-700 disabled:bg-zinc-100 disabled:text-zinc-300 transition-all shrink-0 shadow-none"
           >
             <Send className="h-5 w-5" />
           </Button>
