@@ -2,15 +2,12 @@
 
 import { MessageSquare, ChevronDown } from "lucide-react";
 import { useState } from "react";
-
-interface ChatHistoryProps {
-  isOpen: boolean;
-}
+import { ChatHistoryProps, ChatHistoryItem } from "./types";
 
 export function ChatHistory({ isOpen }: ChatHistoryProps) {
   const [isHistoryOpen, setIsHistoryOpen] = useState(true);
 
-  const history = [
+  const history: ChatHistoryItem[] = [
     { id: 1, title: "Next.js 15 features" },
     { id: 2, title: "Cloudflare Workers AI" },
     { id: 3, title: "Tailwind CSS v4" },

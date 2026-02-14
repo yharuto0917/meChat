@@ -2,11 +2,7 @@
 
 import { PanelLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
-interface SidebarLogoProps {
-  isOpen: boolean;
-  onToggle: () => void;
-}
+import { SidebarLogoProps } from "./types";
 
 export function SidebarLogo({ isOpen, onToggle }: SidebarLogoProps) {
   return (

@@ -2,10 +2,7 @@
 
 import { Settings, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
-interface AccountSettingsProps {
-  isOpen: boolean;
-}
+import { AccountSettingsProps } from "./types";
 
 export function AccountSettings({ isOpen }: AccountSettingsProps) {
   return (

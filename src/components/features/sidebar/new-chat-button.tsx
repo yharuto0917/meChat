@@ -2,10 +2,7 @@
 
 import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
-interface NewChatButtonProps {
-  isOpen: boolean;
-}
+import { NewChatButtonProps } from "./types";
 
 export function NewChatButton({ isOpen }: NewChatButtonProps) {
   return (
