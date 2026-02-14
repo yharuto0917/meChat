@@ -1,11 +1,14 @@
 "use client";
 
-import { useSidebarStore } from "@/store/sidebar-store";
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import { PanelLeft } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
-export function SidebarLogo() {
-  const { isOpen, toggle } = useSidebarStore();
+interface SidebarLogoProps {
+  isOpen: boolean;
+  onToggle: () => void;
+}
 
+export function SidebarLogo({ isOpen, onToggle }: SidebarLogoProps) {
   return (
     <div className={`flex items-center px-4 py-4 ${isOpen ? "justify-between" : "justify-center"}`}>
       {isOpen && (
@@ -13,16 +16,14 @@ export function SidebarLogo() {
           MeChat
         </span>
       )}
-      <button
-        onClick={toggle}
-        className="flex h-10 w-10 items-center justify-center rounded-full bg-zinc-100 text-zinc-600 transition-colors hover:bg-zinc-200"
+      <Button
+        variant="ghost"
+        size="icon"
+        onClick={onToggle}
+        className="h-10 w-10 rounded-full hover:bg-zinc-200/50"
       >
-        {isOpen ? (
-          <XMarkIcon className="h-5 w-5" />
-        ) : (
-          <Bars3Icon className="h-5 w-5" />
-        )}
-      </button>
+        <PanelLeft className="h-5 w-5 text-zinc-600" />
+      </Button>
     </div>
   );
 }

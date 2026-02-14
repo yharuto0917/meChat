@@ -1,28 +1,30 @@
 "use client";
 
-import { useSidebarStore } from "@/store/sidebar-store";
+import { useState } from "react";
 import { SidebarLogo } from "./sidebar-logo";
 import { NewChatButton } from "./new-chat-button";
 import { ChatHistory } from "./chat-history";
 import { AccountSettings } from "./account-settings";
 
 export function Sidebar() {
-  const { isOpen } = useSidebarStore();
+  const [isOpen, setIsOpen] = useState(true);
+
+  const toggle = () => setIsOpen((prev) => !prev);
 
   return (
     <aside
-      className={`fixed inset-y-0 left-0 z-50 flex flex-col bg-zinc-50 transition-all duration-300 ease-in-out border-r border-zinc-200 ${
+      className={`relative z-50 flex flex-col transition-all duration-300 ease-in-out rounded-3xl border border-white/20 shadow-2xl backdrop-blur-xl bg-white/70 h-[calc(100dvh-2rem)] ${
         isOpen ? "w-64" : "w-20"
       }`}
     >
-      <SidebarLogo />
+      <SidebarLogo isOpen={isOpen} onToggle={toggle} />
       
-      <div className="flex-1 overflow-y-auto overflow-x-hidden">
-        <NewChatButton />
-        <ChatHistory />
+      <div className="flex-1 overflow-y-auto overflow-x-hidden px-2">
+        <NewChatButton isOpen={isOpen} />
+        {isOpen && <ChatHistory isOpen={isOpen} />}
       </div>
 
-      <AccountSettings />
+      <AccountSettings isOpen={isOpen} />
     </aside>
   );
 }

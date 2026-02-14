@@ -1,5 +1,4 @@
 import { Sidebar } from "@/components/features/sidebar/sidebar";
-import { MainContainer } from "@/components/features/sidebar/main-container";
 
 export default function MainLayout({
 	children,
@@ -7,9 +6,13 @@ export default function MainLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<div className="min-h-dvh bg-background text-foreground">
+		<div className="relative flex min-h-dvh bg-[#f4f4f5] p-4 gap-4">
 			<Sidebar />
-			<MainContainer>{children}</MainContainer>
+			<main className="flex-1 rounded-3xl border border-white/20 bg-white/70 shadow-xl backdrop-blur-xl overflow-hidden ml-[auto]">
+				<div className="h-full overflow-y-auto">
+          {children}
+        </div>
+			</main>
 		</div>
 	);
 }

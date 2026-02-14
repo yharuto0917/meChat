@@ -1,17 +1,23 @@
 "use client";
 
-import { useSidebarStore } from "@/store/sidebar-store";
-import { PlusIcon } from "@heroicons/react/24/outline";
+import { Plus } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
-export function NewChatButton() {
-  const { isOpen } = useSidebarStore();
+interface NewChatButtonProps {
+  isOpen: boolean;
+}
 
+export function NewChatButton({ isOpen }: NewChatButtonProps) {
   return (
-    <div className="px-2 py-2">
-      <button className="flex w-full items-center gap-3 rounded-full bg-zinc-900 px-4 py-3 text-sm font-medium text-white hover:bg-zinc-700">
-        <PlusIcon className="h-5 w-5 shrink-0" />
+    <div className="py-2">
+      <Button 
+        className={`w-full bg-zinc-900 text-white hover:bg-zinc-700 transition-all duration-300 ${
+          isOpen ? "rounded-full px-4 justify-start" : "rounded-full p-0 h-12 w-12 mx-auto justify-center"
+        }`}
+      >
+        <Plus className={`h-5 w-5 shrink-0 ${isOpen ? "mr-2" : ""}`} />
         {isOpen && <span>New Chat</span>}
-      </button>
+      </Button>
     </div>
   );
 }
