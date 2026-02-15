@@ -4,14 +4,14 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-export default function SignInPage() {
+export default function SignUpPage() {
 	return (
 		<main className="w-full rounded-3xl bg-white p-8 shadow-lg">
 			<div className="space-y-2">
-				<p className="font-caveat text-3xl text-zinc-900">Welcome back</p>
-				<h1 className="text-2xl font-semibold tracking-tight text-zinc-900">Sign in to your account</h1>
+				<p className="font-caveat text-3xl text-zinc-900">Get started</p>
+				<h1 className="text-2xl font-semibold tracking-tight text-zinc-900">Create an account</h1>
 				<p className="text-sm text-zinc-600">
-					Enter your email below to sign in or continue with a provider
+					Enter your email below to create your account or continue with a provider
 				</p>
 			</div>
 
@@ -91,18 +91,18 @@ export default function SignInPage() {
 						type="button"
 						className="w-full rounded-full bg-zinc-900 py-6 text-sm font-medium text-white hover:bg-zinc-800"
 					>
-						Sign In
+						Create account
 					</Button>
 				</form>
 			</div>
 
 			<div className="mt-5 text-center text-sm text-zinc-600">
-				Don&apos;t have an account?{" "}
+				Already have an account?{" "}
 				<Link
-					href="/sign-up"
+					href="/sign-in"
 					className="font-medium text-zinc-900 underline underline-offset-4 hover:text-zinc-700"
 				>
-					Sign up
+					Sign in
 				</Link>
 			</div>
 		</main>
