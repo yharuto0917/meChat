@@ -139,6 +139,18 @@ You will generate:
 
 ***
 
+<<<<<<< HEAD
+=======
+# Initialization
+
+When starting a task, assume the user has initialized a blank project. Suggest installing:
+
+```bash
+pnpm add ai @ai-sdk/google drizzle-orm firebase jose clsx tailwind-merge @heroicons/react @radix-ui/react-slot
+pnpm add -D drizzle-kit wrangler
+```
+
+>>>>>>> main
 # Detail Instructions
 
 If you received some instructions about more detail of instructions, you should follow both the detail instructions and the instructions above.
