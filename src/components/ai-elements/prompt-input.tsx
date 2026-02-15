@@ -4,6 +4,7 @@ import type { ChatStatus, FileUIPart, SourceDocumentUIPart } from "ai";
 import type {
   ChangeEvent,
   ChangeEventHandler,
+  CompositionEventHandler,
   ClipboardEventHandler,
   ComponentProps,
   FormEvent,
@@ -66,6 +67,7 @@ import { nanoid } from "nanoid";
 import {
   Children,
   createContext,
+  forwardRef,
   useCallback,
   useContext,
   useEffect,
@@ -182,7 +184,7 @@ export const PromptInputProvider = ({
   >([]);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   // oxlint-disable-next-line eslint(no-empty-function)
-  const openRef = useRef<() => void>(() => {});
+  const openRef = useRef<() => void>(() => { });
 
   const add = useCallback((files: File[] | FileList) => {
     const incoming = [...files];
@@ -388,7 +390,7 @@ export type PromptInputProps = Omit<
   ) => void | Promise<void>;
 };
 
-export const PromptInput = ({
+export const PromptInput = forwardRef<HTMLFormElement, PromptInputProps>(({
   className,
   accept,
   multiple,
@@ -400,7 +402,7 @@ export const PromptInput = ({
   onSubmit,
   children,
   ...props
-}: PromptInputProps) => {
+}, forwardedRef) => {
   // Try to use a provider controller if present
   const controller = useOptionalPromptInputController();
   const usingProvider = !!controller;
@@ -564,13 +566,13 @@ export const PromptInput = ({
       usingProvider
         ? controller?.attachments.clear()
         : setItems((prev) => {
-            for (const file of prev) {
-              if (file.url) {
-                URL.revokeObjectURL(file.url);
-              }
+          for (const file of prev) {
+            if (file.url) {
+              URL.revokeObjectURL(file.url);
             }
-            return [];
-          }),
+          }
+          return [];
+        }),
     [usingProvider, controller]
   );
 
@@ -727,9 +729,9 @@ export const PromptInput = ({
       const text = usingProvider
         ? controller.textInput.value
         : (() => {
-            const formData = new FormData(form);
-            return (formData.get("message") as string) || "";
-          })();
+          const formData = new FormData(form);
+          return (formData.get("message") as string) || "";
+        })();
 
       // Reset form immediately after capturing text to avoid race condition
       // where user input during async blob conversion would be lost
@@ -780,6 +782,20 @@ export const PromptInput = ({
     [usingProvider, controller, files, onSubmit, clear]
   );
 
+  const setMergedFormRef = useCallback(
+    (node: HTMLFormElement | null) => {
+      formRef.current = node;
+      if (typeof forwardedRef === "function") {
+        forwardedRef(node);
+        return;
+      }
+      if (forwardedRef) {
+        forwardedRef.current = node;
+      }
+    },
+    [forwardedRef]
+  );
+
   // Render with or without local provider
   const inner = (
     <>
@@ -794,12 +810,12 @@ export const PromptInput = ({
         type="file"
       />
       <form
-        className={cn("w-full", className)}
+        className="w-full"
         onSubmit={handleSubmit}
-        ref={formRef}
+        ref={setMergedFormRef}
         {...props}
       >
-        <InputGroup className="overflow-hidden">{children}</InputGroup>
+        <InputGroup className={cn("overflow-hidden", className)}>{children}</InputGroup>
       </form>
     </>
   );
@@ -816,7 +832,9 @@ export const PromptInput = ({
       {withReferencedSources}
     </LocalAttachmentsContext.Provider>
   );
-};
+});
+
+PromptInput.displayName = "PromptInput";
 
 export type PromptInputBodyProps = HTMLAttributes<HTMLDivElement>;
 
@@ -834,6 +852,8 @@ export type PromptInputTextareaProps = ComponentProps<
 export const PromptInputTextarea = ({
   onChange,
   onKeyDown,
+  onCompositionStart,
+  onCompositionEnd,
   className,
   placeholder = "What would you like to know?",
   ...props
@@ -916,20 +936,32 @@ export const PromptInputTextarea = ({
     [attachments]
   );
 
-  const handleCompositionEnd = useCallback(() => setIsComposing(false), []);
-  const handleCompositionStart = useCallback(() => setIsComposing(true), []);
+  const handleCompositionEnd: CompositionEventHandler<HTMLTextAreaElement> = useCallback(
+    (e) => {
+      setIsComposing(false);
+      onCompositionEnd?.(e);
+    },
+    [onCompositionEnd]
+  );
+  const handleCompositionStart: CompositionEventHandler<HTMLTextAreaElement> = useCallback(
+    (e) => {
+      setIsComposing(true);
+      onCompositionStart?.(e);
+    },
+    [onCompositionStart]
+  );
 
   const controlledProps = controller
     ? {
-        onChange: (e: ChangeEvent<HTMLTextAreaElement>) => {
-          controller.textInput.setInput(e.currentTarget.value);
-          onChange?.(e);
-        },
-        value: controller.textInput.value,
-      }
+      onChange: (e: ChangeEvent<HTMLTextAreaElement>) => {
+        controller.textInput.setInput(e.currentTarget.value);
+        onChange?.(e);
+      },
+      value: controller.textInput.value,
+    }
     : {
-        onChange,
-      };
+      onChange,
+    };
 
   return (
     <InputGroupTextarea
@@ -993,10 +1025,10 @@ export const PromptInputTools = ({
 export type PromptInputButtonTooltip =
   | string
   | {
-      content: ReactNode;
-      shortcut?: string;
-      side?: ComponentProps<typeof TooltipContent>["side"];
-    };
+    content: ReactNode;
+    shortcut?: string;
+    side?: ComponentProps<typeof TooltipContent>["side"];
+  };
 
 export type PromptInputButtonProps = ComponentProps<typeof InputGroupButton> & {
   tooltip?: PromptInputButtonTooltip;

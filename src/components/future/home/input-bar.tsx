@@ -1,11 +1,10 @@
 "use client";
 
-import { useSubmitJP } from "use-submit-jp";
 import { Button } from "@/components/ui/button";
-import { 
-  PromptInput, 
-  PromptInputTextarea, 
-  PromptInputFooter, 
+import {
+  PromptInput,
+  PromptInputTextarea,
+  PromptInputFooter,
   PromptInputTools,
   usePromptInputAttachments
 } from "@/components/ai-elements/prompt-input";
@@ -21,18 +20,18 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { 
-  ModelSelector, 
-  ModelSelectorContent, 
-  ModelSelectorGroup, 
-  ModelSelectorInput, 
-  ModelSelectorItem, 
-  ModelSelectorList, 
+import {
+  ModelSelector,
+  ModelSelectorContent,
+  ModelSelectorGroup,
+  ModelSelectorInput,
+  ModelSelectorItem,
+  ModelSelectorList,
   ModelSelectorTrigger,
   ModelSelectorLogo
 } from "@/components/ai-elements/model-selector";
 import { Send, Brain, Hammer, ChevronDown, Paperclip } from "lucide-react";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef } from "react";
 import { ModelOption, ToolOption, ThinkingLevel } from "./types";
 
 const models: ModelOption[] = [
@@ -75,33 +74,27 @@ function AttachmentButton() {
 export function InputBar() {
   const [value, setValue] = useState("");
   const [selectedModel, setSelectedModel] = useState(models[0]);
+  const formRef = useRef<HTMLFormElement>(null);
 
-  const { onKeyDown } = useSubmitJP({
-    onSubmit: () => {
-      if (!value.trim()) return;
-      handleSend();
-    },
-    submitWithCommand: true, // Cmd+Enter for submission
-  });
-
-  const handleSend = useCallback(() => {
-    if (!value.trim()) return;
-    console.log("Submit:", value);
+  const handleSend = useCallback((text: string) => {
+    if (!text.trim()) return;
+    console.log("Submit:", text);
     setValue("");
-  }, [value]);
+  }, []);
 
   return (
     <div className="w-full max-w-4xl mx-auto px-4 pb-8">
       <PromptInput
-        onSubmit={(msg) => {
-          console.log("AI Elements Submit:", msg);
+        ref={formRef}
+        onSubmit={({ text, files }) => {
+          console.log("AI Elements Submit:", { text, files, model: selectedModel.id });
+          handleSend(text);
         }}
         className="rounded-[2.5rem] border border-zinc-200 bg-white/50 transition-all focus-within:border-zinc-400 backdrop-blur-sm shadow-none"
       >
         <PromptInputTextarea
           value={value}
           onChange={(e) => setValue(e.target.value)}
-          onKeyDownCapture={onKeyDown}
           placeholder="Ask me anything..."
           className="min-h-[100px] w-full resize-none border-none bg-transparent p-6 text-base text-zinc-900 placeholder:text-zinc-400 focus-visible:ring-0 shadow-none"
         />
@@ -116,15 +109,15 @@ export function InputBar() {
                   <ChevronDown className="ml-1 h-3 w-3 opacity-50" />
                 </Button>
               </ModelSelectorTrigger>
-              <ModelSelectorContent title="Select Model">
+              <ModelSelectorContent title="Select Model" className="rounded-xl border-zinc-200">
                 <ModelSelectorInput placeholder="Search models..." />
                 <ModelSelectorList>
                   <ModelSelectorGroup heading="Google">
                     {models.map((m) => (
-                      <ModelSelectorItem 
-                        key={m.id} 
+                      <ModelSelectorItem
+                        key={m.id}
                         onSelect={() => setSelectedModel(m)}
-                        className="flex items-center gap-2"
+                        className="flex items-center gap-2 rounded-lg"
                       >
                         <ModelSelectorLogo provider="google" />
                         <span>{m.name}</span>
@@ -140,9 +133,9 @@ export function InputBar() {
                 <Brain className="mr-1.5 h-3.5 w-3.5 text-zinc-400" />
                 <SelectValue placeholder="Thinking" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="rounded-xl border-zinc-200">
                 {thinkingLevels.map((l) => (
-                  <SelectItem key={l.value} value={l.value}>
+                  <SelectItem key={l.value} value={l.value} className="rounded-lg">
                     {l.label}
                   </SelectItem>
                 ))}
@@ -154,9 +147,9 @@ export function InputBar() {
                 <Hammer className="mr-1.5 h-3.5 w-3.5 text-zinc-400" />
                 <SelectValue placeholder="Tools" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="rounded-xl border-zinc-200">
                 {tools.map((t) => (
-                  <SelectItem key={t.id} value={t.id}>
+                  <SelectItem key={t.id} value={t.id} className="rounded-lg">
                     {t.name}
                   </SelectItem>
                 ))}
@@ -167,8 +160,7 @@ export function InputBar() {
           </PromptInputTools>
 
           <Button
-            type="button"
-            onClick={handleSend}
+            type="submit"
             disabled={!value.trim()}
             className="h-10 w-10 rounded-full bg-zinc-900 p-0 text-white hover:bg-zinc-700 disabled:bg-zinc-100 disabled:text-zinc-300 transition-all shrink-0 shadow-none"
           >
