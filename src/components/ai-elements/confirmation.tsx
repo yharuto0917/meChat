@@ -16,16 +16,6 @@ type ToolUIPartApproval =
     }
   | {
       id: string;
-      approved: boolean;
-      reason?: string;
-    }
-  | {
-      id: string;
-      approved: true;
-      reason?: string;
-    }
-  | {
-      id: string;
       approved: true;
       reason?: string;
     }
@@ -33,8 +23,7 @@ type ToolUIPartApproval =
       id: string;
       approved: false;
       reason?: string;
-    }
-  | undefined;
+    };
 
 interface ConfirmationContextValue {
   approval: ToolUIPartApproval;
@@ -168,6 +157,13 @@ export const ConfirmationActions = ({
 
 export type ConfirmationActionProps = ComponentProps<typeof Button>;
 
-export const ConfirmationAction = (props: ConfirmationActionProps) => (
-  <Button className="h-8 px-3 text-sm" type="button" {...props} />
+export const ConfirmationAction = ({
+  className,
+  ...props
+}: ConfirmationActionProps) => (
+  <Button
+    className={cn("h-8 px-3 text-sm", className)}
+    type="button"
+    {...props}
+  />
 );

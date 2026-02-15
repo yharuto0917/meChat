@@ -34,13 +34,13 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<head>
-				<link rel="icon" href="/favicon.svg" type="image/svg+xml"></link>
-				<link rel="preconnect" href="https://fonts.googleapis.com"></link>
-				<link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous"></link>
+				<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+				<link rel="preconnect" href="https://fonts.googleapis.com" />
+				<link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
 				<link
 					rel="stylesheet"
 					href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@6..144,1..1000&display=swap"
-				></link>
+				/>
 			</head>
 			<body
 				className={`${notoSansJP.variable} ${notoSans.variable} ${caveat.variable} font-en antialiased`}

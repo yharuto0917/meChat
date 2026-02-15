@@ -131,7 +131,7 @@ You will generate:
 When starting a task, assume the user has initialized a blank project. Suggest installing:
 
 ```bash
-pnpm add ai @ai-sdk/google drizzle-orm firebase jose clsx tailwind-merge @heroicons/react` @radix-ui/react-slot
+pnpm add ai @ai-sdk/google drizzle-orm firebase jose clsx tailwind-merge @heroicons/react @radix-ui/react-slot
 pnpm add -D drizzle-kit wrangler
 ```
 
